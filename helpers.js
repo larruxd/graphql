@@ -13,21 +13,31 @@ export function isAuthorized() {
     } else {
         sessionStorage.clear();
         localStorage.clear();
-        clearAllCookies();
+        clearJwtCookie();
     }
     // If the JWT cookie is not found or is invalid
     return false;
 }
 
-export function clearAllCookies() {
+// export function clearAllCookies() {
+//     const cookies = document.cookie.split(";");
+//     if (cookies[0] !== "") {
+//         for (let i = 0; i < cookies.length; i++) {
+//             const cookie = cookies[i];
+//             const eqPos = cookie.indexOf("=");
+//             const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+//             document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+//         }
+//     }
+// }
+
+export function clearJwtCookie() {
     const cookies = document.cookie.split(";");
-    if (cookies[0] !== "") {
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i];
-            const eqPos = cookie.indexOf("=");
-            const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-        }
+    const jwtCookie = cookies.find((cookie) => cookie.startsWith("jwt="));
+    if (jwtCookie) {
+        const eqPos = jwtCookie.indexOf("=");
+        const name = eqPos > -1 ? jwtCookie.substr(0, eqPos) : jwtCookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
 }
 
