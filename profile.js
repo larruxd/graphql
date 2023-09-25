@@ -1,58 +1,7 @@
-import { isAuthorized, getJwtToken } from "../helpers.js";
-import { navigateTo } from "../main.js";
-import { createSkillChart, createXpChart } from "../charts.js";
+import { isAuthorized, getJwtToken } from "./helpers.js";
+import { createSkillChart, createXpChart } from "./charts.js";
 
-export default function () {
-    document.title = "Profile";
-
-    document.getElementById(
-        "menu"
-    ).innerHTML = `<a href="/logout" id="logoutBtn" data-link>Log out</a>`;
-
-    document.getElementById("body").innerHTML = `
-
-            <div id="main">
-                <div id="profile" class="card">
-                    <div id="profile-card">
-                        <div id="user">
-                            <div id="pfp"></div>
-                            <p id="username"></p>
-                        </div>
-                        <div id="user-info">
-                            <p class="label">Div 01</p>
-                            <table id="user-info-table"></table>
-                        </div>
-                    </div>
-                    <div class="graphs">
-                        <div id="graph1" class="graphDiv card">
-                            <svg id="spider-graph"></svg>
-                        </div>
-
-                        <div id="graph2" class="graphDiv card">
-                            <h3>Total XP over time</h3>
-                            <svg id="xp-chart"></svg>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-    `;
-
-    homePage();
-}
-
-async function homePage() {
-    if (!isAuthorized()) {
-        console.log("Not authorized");
-        navigateTo("/login");
-        return;
-    } else {
-        createPage();
-    }
-}
-
-async function createPage() {
+export async function createHomePage() {
     const jwtToken = getJwtToken();
     const apiUrl = "https://01.kood.tech/api/graphql-engine/v1/graphql";
     const graphqlQuery = `
