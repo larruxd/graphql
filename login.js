@@ -1,10 +1,6 @@
-import { display } from "./main.js";
+import { main } from "./main.js";
 
 export function loginListener() {
-    // if (isAuthorized()) {
-    //     navigateTo("/");
-    //     return;
-    // } else {
     const loginForm = document.getElementById("login-form");
 
     loginForm.addEventListener("submit", (e) => {
@@ -24,17 +20,16 @@ export function loginListener() {
 
 async function auth(username, password) {
     const authURL = "https://01.kood.tech/api/auth/signin";
-    // const username = "lauri.laretei@gmail.com";
-    // const password = "";
-    const credentials = btoa(`${username}:${password}`);
 
-    let jwtToken = await getToken(authURL, credentials);
+    const credentials = btoa(`${username}:${password}`);
+    const jwtToken = await getToken(authURL, credentials);
 
     console.log("JWT: " + jwtToken);
     if (jwtToken) {
-        document.cookie = `jwt=${jwtToken}; path=/; secure; samesite=Lax`;
-        await new Promise((r) => setTimeout(r, 500));
-        display();
+        sessionStorage.setItem("jwt", jwtToken);
+        // document.cookie = `jwt=${jwtToken}; path=/; secure; samesite=Lax`;
+        // await new Promise((r) => setTimeout(r, 500));
+        main();
     }
 }
 
@@ -50,6 +45,7 @@ async function getToken(url, credentials) {
     try {
         let resp = await fetch(url, requestOptions);
         if (resp.status === 200) {
+            clearLoginErr();
             return resp.json();
         } else if (resp.status === 401) {
             loginErr("User doesn't exist");
@@ -64,6 +60,9 @@ async function getToken(url, credentials) {
     } catch (e) {
         console.error(e);
     }
+}
+function clearLoginErr() {
+    document.getElementById("loginFeedback").innerHTML = "";
 }
 
 function loginErr(text) {

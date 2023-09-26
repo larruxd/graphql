@@ -7,10 +7,10 @@ const homeDiv = document.getElementById("main");
 const logoutBtn = document.getElementById("logoutBtn");
 
 document.addEventListener("DOMContentLoaded", () => {
-    display();
+    main();
 });
 
-export function display() {
+export function main() {
     if (isAuthorized()) {
         // show home page
         loginForm.style.display = "none";
@@ -29,9 +29,12 @@ export function display() {
 
 function logout() {
     if (isAuthorized()) {
-        clearJwtCookie();
-        display();
+        // clearJwtCookie();
+        sessionStorage.removeItem("jwt");
+        document.getElementById("LoginID").value = "";
+        document.getElementById("password").value = "";
+        main();
     } else {
-        console.log("Not authorized / no cookie session found");
+        console.log("Not authorized / no session found");
     }
 }

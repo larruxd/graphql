@@ -23,18 +23,8 @@ export function createSkillChart(data) {
         angleLine.setAttribute("x2", (centerX + radius * Math.cos(angle)).toString());
         angleLine.setAttribute("y2", (centerY + radius * Math.sin(angle)).toString());
         angleLine.setAttribute("stroke", "gray");
-        //angleLine.setAttribute("stroke-dasharray", "4"); // Add dashes to the lines
 
         svg.appendChild(angleLine);
-
-        // connecting lines
-        /* const connectingLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        connectingLine.setAttribute("x1", (centerX + radius * Math.cos(angle)).toString());
-        connectingLine.setAttribute("y1", (centerY + radius * Math.sin(angle)).toString());
-        connectingLine.setAttribute("x2", (centerX + radius * Math.cos(angle2)).toString());
-        connectingLine.setAttribute("y2", (centerY + radius * Math.sin(angle2)).toString());
-        connectingLine.setAttribute("stroke", "gray");
-        svg.appendChild(connectingLine); */
 
         for (let i = 0; i < 5; i++) {
             let radiusStep = radius / 5;
